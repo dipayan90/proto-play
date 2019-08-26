@@ -53,7 +53,8 @@ def read_from_file():
     """
     with open('proto.txt', 'r') as the_file:
         employee_obj = deserialize(the_file.readline())
-        assert employee_obj.name == "Bob"
+        print("Reading from 'proto.txt'")
+        print(employee_obj)
 
 def compare_size_with_json():
     """
