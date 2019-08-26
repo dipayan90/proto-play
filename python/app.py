@@ -1,6 +1,8 @@
 from models.employee_pb2 import Employee
 import uuid
 import base64
+import json
+import os
 
 def serialize(employee: Employee) -> str:
     """
@@ -53,5 +55,21 @@ def read_from_file():
         employee_obj = deserialize(the_file.readline())
         assert employee_obj.name == "Bob"
 
+def compare_size_with_json():
+    """
+    Compares size between PROTO and JSON
+    :return:
+    """
+    with open('proto.txt', 'w') as the_file:
+        json_str = json.dumps({"employee_id" : str(uuid.uuid4()), "name" : "Bob", "type" : "FULLTIME", "email" : "bob@company.com", "extension": 9090, "groups" : ["seattle","shoes","store101"]})
+        the_file.write(base64.b64encode(bytes(json_str, "utf-8")).decode('utf-8'))
+    json_size = os.path.getsize('proto.txt')
+    write_to_file()
+    proto_size = os.path.getsize('proto.txt')
+    print("JSON size is {} and PROTO size is {}".format(json_size, proto_size))
+    print("PROTO is {} percent smaller than JSON".format((proto_size/json_size) * 100))
+
+
 write_to_file()
 read_from_file()
+compare_size_with_json()
