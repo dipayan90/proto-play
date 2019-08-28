@@ -20,6 +20,5 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
-        node javascript/app.js
       env:
         CI: true
